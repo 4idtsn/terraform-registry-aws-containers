@@ -10,7 +10,7 @@ locals {
   ecs_cluster_normalised = !var.is_enabled ? [] : var.ecs_cluster_config == null ? [] : [
     for ecs in var.ecs_cluster_config : {
       name               = lower(trimspace(ecs.name))
-      container_insights = ecs["enable_container_insights"] == null ? "disabled" : "enabled"
+      container_insights = coalesce(ecs["enable_container_insights"], false) ? "enabled" : "disabled"
     }
   ]
 
